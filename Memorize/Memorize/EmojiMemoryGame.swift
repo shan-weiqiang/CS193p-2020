@@ -21,7 +21,7 @@ class EmojiMemoryGame{
         
         return MemoryGame<String>(numberOfPairsOfCards: Int.random(in: 2...5)){ pairIndex in
             
-        return emojis[pairIndex]
+            return emojis[Int.random(in: 0..<emojis.count)]
         }
 
     }

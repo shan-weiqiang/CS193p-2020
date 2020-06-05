@@ -22,7 +22,7 @@ struct MemoryGame<CardContent>{
         cards = Array<Card>()
         for pairIndex in 0..<numberOfPairsOfCards{
             cards.append(Card(id: pairIndex * 2,  content: cardContentFactory(pairIndex)))
-            cards.append(Card(id: pairIndex * 2 + 1, content: cardContentFactory(pairIndex)))
+            cards.append(Card(id: pairIndex * 2 + 1, content: cards.last!.content))
         }
     }
     

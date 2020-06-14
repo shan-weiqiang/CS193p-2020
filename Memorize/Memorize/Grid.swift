@@ -40,6 +40,7 @@ struct Grid<Item, ItemView>: View where Item: Identifiable, ItemView: View {
         return viewForItem(item)
             .frame(width: layout.itemSize.width, height: layout.itemSize.height)
             .position(layout.location(ofItemAt: index!))
+
     }
     
     

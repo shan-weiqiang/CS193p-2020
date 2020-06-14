@@ -64,6 +64,12 @@ class EmojiMemoryGame: ObservableObject{
         return model.cards
     }
     
+    //MARK: Acess to the score
+    
+    var score: Int{
+        return model.score
+    }
+    
     // MARK: Intents
     
     func choose(card: MemoryGame<String>.Card){

@@ -14,8 +14,12 @@ struct EmojiMemoryGameView: View {
     
     var body: some View {
         VStack{
-            Text(viewModel.theme.name)
+            HStack{
+                Text(viewModel.theme.name)
                 .font(Font.headline)
+                
+                Text("Score:\(viewModel.score)")
+            }
             
             Grid(items: viewModel.cards){ card in
                        CardView(card: card)

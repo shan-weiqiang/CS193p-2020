@@ -11,20 +11,56 @@ import SwiftUI
 
 class EmojiMemoryGame: ObservableObject{
     
-
     
-   @Published private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
     
-    static func createMemoryGame() -> MemoryGame<String>{
+    @Published private var model: MemoryGame<String>
+    
+    //MARK: theme
+    var theme: Theme
+    
+    
+    //MARK: Themes
+    static var themes:[Theme] = [
+        Theme(named: "faces", emojisList: ["👻", "😈","👽","🤖"], numberOfCards: 4, colored: Color.orange),
+        Theme(named: "animals", emojisList: ["🐶","🐱","🐭","🐻","🐯"], colored: Color.blue),
+        Theme(named: "sports", emojisList: ["⚽️","🏀","🏈","⚾️","🥎"], colored: Color.green),
+        Theme(named: "vehicles", emojisList: ["🚗","🚎","🛴","🚜","🚓","✈️","🚌","🚁","⛵️","🛵","🚲"], colored: Color.purple),
+        Theme(named: "flags", emojisList: ["🏴‍☠️","🏳️‍🌈","🇦🇿","🇦🇷","🇨🇺","🇨🇳"], numberOfCards: 4, colored: Color.blue),
+        Theme(named: "food", emojisList: ["🍔","🍞","🍟","🥪","🍤","🍗","🥮"], numberOfCards: 6, colored: Color.pink)
+    ]
+    
+    //MARK: Theme struct
+    struct Theme {
+        var name: String
+        var emojis: [String]
+        var numberOfCards: Int?
+        var color: Color
         
-        let emojis: Array<String> = ["👻", "😈","👽","🤖"]
-        
-        return MemoryGame<String>(numberOfPairsOfCards: emojis.count){ pairIndex in
+        init(named name: String, emojisList emojis: [String], numberOfCards number: Int? = nil, colored color: Color) {
+            self.name = name
+            self.emojis = emojis
+            numberOfCards = number ?? Int.random(in: 0..<emojis.count)
+            self.color = color
             
-        return emojis[pairIndex]
         }
-
     }
+    
+    init(theme: EmojiMemoryGame.Theme? = nil) {
+        let startTheme = theme ?? EmojiMemoryGame.themes[Int.random(in: 0..<EmojiMemoryGame.themes.count)]
+        self.theme = startTheme
+        func createMemoryGame() -> MemoryGame<String>{
+            return MemoryGame<String>(numberOfPairsOfCards: startTheme.numberOfCards!){pairIndex in
+                startTheme.emojis[pairIndex]
+            }
+        }
+        model = createMemoryGame()
+    }
+    
+    // MARK: Add a theme
+    func addThemes(theme: EmojiMemoryGame.Theme){
+        EmojiMemoryGame.themes.append(theme)
+    }
+    
     
     // MARK: Access to the model
     

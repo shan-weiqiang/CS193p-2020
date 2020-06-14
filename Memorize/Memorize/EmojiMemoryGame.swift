@@ -29,36 +29,32 @@ class EmojiMemoryGame: ObservableObject{
         Theme(named: "food", emojisList: ["🍔","🍞","🍟","🥪","🍤","🍗","🥮"], numberOfCards: 6, colored: Color.pink)
     ]
     
-    //MARK: Theme struct
-    struct Theme {
-        var name: String
-        var emojis: [String]
-        var numberOfCards: Int?
-        var color: Color
-        
-        init(named name: String, emojisList emojis: [String], numberOfCards number: Int? = nil, colored color: Color) {
-            self.name = name
-            self.emojis = emojis
-            numberOfCards = number ?? Int.random(in: 0..<emojis.count)
-            self.color = color
-            
-        }
-    }
     
+    
+    //MARK: initialize using a random theme
     init(theme: EmojiMemoryGame.Theme? = nil) {
         let startTheme = theme ?? EmojiMemoryGame.themes[Int.random(in: 0..<EmojiMemoryGame.themes.count)]
         self.theme = startTheme
-        func createMemoryGame() -> MemoryGame<String>{
-            return MemoryGame<String>(numberOfPairsOfCards: startTheme.numberOfCards!){pairIndex in
-                startTheme.emojis[pairIndex]
-            }
-        }
-        model = createMemoryGame()
+        model = EmojiMemoryGame.createMemoryGame(using: startTheme)
     }
     
     // MARK: Add a theme
     func addThemes(theme: EmojiMemoryGame.Theme){
         EmojiMemoryGame.themes.append(theme)
+    }
+    
+    //MARK: create game using specified theme
+    
+    static func createMemoryGame(using theme: EmojiMemoryGame.Theme) -> MemoryGame<String>{
+               return MemoryGame<String>(numberOfPairsOfCards: theme.numberOfCards!){pairIndex in
+                   theme.emojis[pairIndex]
+               }
+           }
+    
+    //MARK: createNewGame
+    func createNewGame(){
+        theme = EmojiMemoryGame.themes[Int.random(in: 0..<EmojiMemoryGame.themes.count)]
+        model = EmojiMemoryGame.createMemoryGame(using: theme)
     }
     
     
@@ -72,5 +68,21 @@ class EmojiMemoryGame: ObservableObject{
     
     func choose(card: MemoryGame<String>.Card){
         model.choose(card: card)
+    }
+    
+    //MARK: Theme struct
+    struct Theme {
+        var name: String
+        var emojis: [String]
+        var numberOfCards: Int?
+        var color: Color
+        
+        init(named name: String, emojisList emojis: [String], numberOfCards number: Int? = nil, colored color: Color) {
+            self.name = name
+            self.emojis = emojis
+            numberOfCards = number ?? Int.random(in: 1..<emojis.count)
+            self.color = color
+            
+        }
     }
 }

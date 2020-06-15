@@ -14,25 +14,37 @@ struct EmojiMemoryGameView: View {
     
     var body: some View {
         VStack{
+            Spacer()
             HStack{
+                Spacer()
                 Text(viewModel.theme.name)
                 .font(Font.headline)
-                
+                Spacer()
                 Text("Score:\(viewModel.score)")
+                    .font(Font.headline)
+                Spacer()
             }
+            .padding(20)
             
+            Divider()
             Grid(items: viewModel.cards){ card in
-                       CardView(card: card)
+                CardView(card: card, gradient: self.viewModel.theme.gradient)
                            //                .aspectRatio(2/3, contentMode: .fit)
                            .onTapGesture {self.viewModel.choose(card: card)}
                            .padding(5)
+                
                    }
                        
                    .padding()
                    .foregroundColor(viewModel.theme.color)
+            
+            
+            Divider()
             Button("New Game"){
                 self.viewModel.createNewGame()
             }
+            
+            Spacer()
         }
        
         
@@ -48,6 +60,7 @@ struct EmojiMemoryGameView: View {
 struct CardView: View{
     
     var card: MemoryGame<String>.Card
+    var gradient: LinearGradient
     var body: some View{
         
         GeometryReader{geometry in
@@ -59,7 +72,7 @@ struct CardView: View{
                     
                 }else{
                     if !self.card.isMatched{
-                    RoundedRectangle(cornerRadius: self.cornerRadius).fill()
+                        RoundedRectangle(cornerRadius: self.cornerRadius).fill(self.gradient)
                     }
                 }
             }

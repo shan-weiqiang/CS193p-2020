@@ -21,13 +21,23 @@ class EmojiMemoryGame: ObservableObject{
     
     //MARK: Themes
     static var themes:[Theme] = [
-        Theme(named: "faces", emojisList: ["👻", "😈","👽","🤖"], numberOfCards: 4, colored: Color.orange),
-        Theme(named: "animals", emojisList: ["🐶","🐱","🐭","🐻","🐯"], colored: Color.blue),
-        Theme(named: "sports", emojisList: ["⚽️","🏀","🏈","⚾️","🥎"], colored: Color.green),
-        Theme(named: "vehicles", emojisList: ["🚗","🚎","🛴","🚜","🚓","✈️","🚌","🚁","⛵️","🛵","🚲"], colored: Color.purple),
-        Theme(named: "flags", emojisList: ["🏴‍☠️","🏳️‍🌈","🇦🇿","🇦🇷","🇨🇺","🇨🇳"], numberOfCards: 4, colored: Color.blue),
-        Theme(named: "food", emojisList: ["🍔","🍞","🍟","🥪","🍤","🍗","🥮"], numberOfCards: 6, colored: Color.pink)
+        Theme(named: "Faces", emojisList: ["👻", "😈","👽","🤖"], numberOfCards: 4, colored: Color.orange, gradient: Gradients.blue_red),
+        Theme(named: "Animals", emojisList: ["🐶","🐱","🐭","🐻","🐯"], colored: Color.blue, gradient: Gradients.orange_green),
+        Theme(named: "Sports", emojisList: ["⚽️","🏀","🏈","⚾️","🥎"], colored: Color.green, gradient: Gradients.red_black),
+        Theme(named: "Vehicles", emojisList: ["🚗","🚎","🛴","🚜","🚓","✈️","🚌","🚁","⛵️","🛵","🚲"], colored: Color.purple, gradient: Gradients.yellow_black),
+        Theme(named: "Flags", emojisList: ["🏴‍☠️","🏳️‍🌈","🇦🇿","🇦🇷","🇨🇺","🇨🇳"], numberOfCards: 4, colored: Color.blue, gradient: Gradients.purple_white),
+        Theme(named: "Food", emojisList: ["🍔","🍞","🍟","🥪","🍤","🍗","🥮"], numberOfCards: 6, colored: Color.pink, gradient: Gradients.yellow_white)
     ]
+    
+    struct Gradients {
+        static let blue_red: LinearGradient = LinearGradient(gradient: Gradient(colors: [.blue,.red]), startPoint: .bottom, endPoint: .top)
+        static let red_black: LinearGradient = LinearGradient(gradient: Gradient(colors: [.red,.black]), startPoint: .bottomLeading, endPoint: .topLeading)
+        static let yellow_black: LinearGradient = LinearGradient(gradient: Gradient(colors: [.yellow,.black]), startPoint: .center, endPoint: .trailing)
+        static let yellow_white: LinearGradient = LinearGradient(gradient: Gradient(colors: [.yellow,.white]), startPoint: .topLeading, endPoint: .trailing)
+        static let purple_white: LinearGradient = LinearGradient(gradient: Gradient(colors: [.purple,.white]), startPoint: .leading, endPoint: .trailing)
+        static let orange_green: LinearGradient = LinearGradient(gradient: Gradient(colors: [.orange,.green]), startPoint: .bottomTrailing, endPoint: .zero)
+
+    }
     
     
     
@@ -82,12 +92,14 @@ class EmojiMemoryGame: ObservableObject{
         var emojis: [String]
         var numberOfCards: Int?
         var color: Color
+        var gradient:LinearGradient
         
-        init(named name: String, emojisList emojis: [String], numberOfCards number: Int? = nil, colored color: Color) {
+        init(named name: String, emojisList emojis: [String], numberOfCards number: Int? = nil, colored color: Color, gradient: LinearGradient) {
             self.name = name
             self.emojis = emojis
             numberOfCards = number ?? Int.random(in: 1..<emojis.count)
             self.color = color
+            self.gradient = gradient
             
         }
     }

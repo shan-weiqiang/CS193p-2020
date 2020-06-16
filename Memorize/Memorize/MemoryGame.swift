@@ -12,6 +12,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
     
     var cards: Array<Card>
     var score: Int = 0
+    var date = Date()
+    var timeFlag: TimeInterval = 0
     
     var indexOfTheOnlyFaceUpCard: Int?{
         get{cards.indices.filter { cards[$0].isFaceUp}.only}
@@ -23,7 +25,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                     }
                     cards[index].hasSeen = true
                 }
-                    cards[index].isFaceUp = index == newValue
+                cards[index].isFaceUp = index == newValue
             }
         }
     }
@@ -35,18 +37,26 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
                 if cards[potentialMatchIndex].content == cards[chosenIndex].content{
                     cards[potentialMatchIndex].isMatched = true
                     cards[chosenIndex].isMatched = true
-                    score += 2
+                    addScore()
+                    
                 }
                 self.cards[chosenIndex].isFaceUp = true
             }else{
-               
+                
                 indexOfTheOnlyFaceUpCard = chosenIndex
+                timeFlag = date.timeIntervalSinceNow
+                print(timeFlag)
             }
             
         }
         
     }
-
+    
+    mutating func addScore(){
+        let timeSinceNow = date.timeIntervalSinceNow
+        score += Int(max(10 - (abs(timeSinceNow) - abs(timeFlag)),1))
+    }
+    
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
         cards = Array<Card>()

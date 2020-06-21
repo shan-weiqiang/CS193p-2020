@@ -30,7 +30,14 @@ struct EmojiMemoryGameView: View {
             Grid(items: viewModel.cards){ card in
                 CardView(card: card, gradient: self.viewModel.theme.gradient)
                            //                .aspectRatio(2/3, contentMode: .fit)
-                           .onTapGesture {self.viewModel.choose(card: card)}
+                           .onTapGesture {
+                            withAnimation(Animation.easeInOut(duration: 3)){
+                                self.viewModel.choose(card: card)
+
+                            }
+                            
+                            
+                }
                            .padding(5)
                 
                    }
@@ -52,11 +59,6 @@ struct EmojiMemoryGameView: View {
     
 }
 
-
-
-
-
-
 struct CardView: View{
     
     var card: MemoryGame<String>.Card
@@ -67,6 +69,7 @@ struct CardView: View{
             ZStack {
                 if self.card.isFaceUp{
                     RoundedRectangle(cornerRadius: self.cornerRadius).fill(Color.white)
+                        .transition(AnyTransition.identity)
                     RoundedRectangle(cornerRadius: self.cornerRadius).stroke(lineWidth: self.edgeLineWidth)
                     Text(self.card.content)
                     
